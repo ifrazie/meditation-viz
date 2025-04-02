@@ -18,6 +18,8 @@
 .env.test.local
 .env.production.local
 
+.dccache
+
 # Sensitive files
 .env
 .env.*

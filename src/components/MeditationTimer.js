@@ -5,6 +5,7 @@ const MeditationTimer = () => {
   const [timeLeft, setTimeLeft] = useState(60); // Initial timer duration in seconds
   const [isActive, setIsActive] = useState(false);
   const [breathingPhase, setBreathingPhase] = useState('inhale');
+  const [customDuration, setCustomDuration] = useState(60);
 
   useEffect(() => {
     let interval = null;
@@ -46,7 +47,12 @@ const MeditationTimer = () => {
     return () => clearInterval(phaseInterval);
   }, [isActive]);
 
+  const handleCustomDurationChange = (e) => {
+    setCustomDuration(Number(e.target.value));
+  };
+
   const startTimer = () => {
+    setTimeLeft(customDuration);
     setIsActive(true);
   };
 
@@ -60,34 +66,52 @@ const MeditationTimer = () => {
     setBreathingPhase('inhale');
   };
 
+  const getPhaseColor = (phase) => {
+    switch (phase) {
+      case 'inhale':
+        return 'green';
+      case 'hold':
+        return 'yellow';
+      case 'exhale':
+        return 'red';
+      default:
+        return 'green';
+    }
+  };
+
   return (
-    <div className="meditation-timer">
-      <div className="timer-display">
+    <div className="meditation-timer" role="main" aria-label="Meditation Timer">
+      <div className="timer-display" aria-live="polite">
         {timeLeft}s
       </div>
-      <div className="breathing-guide" style={{ backgroundColor: getPhaseColor(breathingPhase) }}>
+      <div
+        className="breathing-guide"
+        style={{ backgroundColor: getPhaseColor(breathingPhase) }}
+        aria-live="polite"
+      >
         {breathingPhase.charAt(0).toUpperCase() + breathingPhase.slice(1)}
       </div>
       <div className="controls">
-        <button onClick={startTimer} disabled={isActive}>Start</button>
-        <button onClick={pauseTimer} disabled={!isActive}>Pause</button>
-        <button onClick={resetTimer}>Reset</button>
+        <input
+          type="number"
+          value={customDuration}
+          onChange={handleCustomDurationChange}
+          min="1"
+          className="custom-duration-input"
+          aria-label="Set custom timer duration"
+        />
+        <button onClick={startTimer} disabled={isActive} aria-label="Start Timer">
+          Start
+        </button>
+        <button onClick={pauseTimer} disabled={!isActive} aria-label="Pause Timer">
+          Pause
+        </button>
+        <button onClick={resetTimer} aria-label="Reset Timer">
+          Reset
+        </button>
       </div>
     </div>
   );
-};
-
-const getPhaseColor = (phase) => {
-  switch (phase) {
-    case 'inhale':
-      return 'green';
-    case 'hold':
-      return 'yellow';
-    case 'exhale':
-      return 'red';
-    default:
-      return 'green';
-  }
 };
 
 export default MeditationTimer;

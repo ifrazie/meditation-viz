@@ -1,0 +1,6 @@
+module.exports = {
+  // ...existing code...
+  // Remove the following line:
+  // testEnvironment: 'jest-environment-jsdom',
+  // ...existing code...
+};

@@ -1,11 +1,8 @@
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
-import 'jest-environment-jsdom';
 
-// Configure testing-library
 configure({
   testIdAttribute: 'data-testid',
-  // Set timeout for async events
   asyncUtilTimeout: 1000,
 });
 
@@ -23,21 +20,3 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
-
-// Suppress console errors during tests
-const originalError = console.error;
-beforeAll(() => {
-  console.error = (...args) => {
-    if (/Warning.*not wrapped in act/.test(args[0])) {
-      return;
-    }
-    originalError.call(console, ...args);
-  };
-});
-
-afterAll(() => {
-  console.error = originalError;
-});
-
-// Add any Jest setup code here if needed
-// For example, importing custom matchers or configuring global settings

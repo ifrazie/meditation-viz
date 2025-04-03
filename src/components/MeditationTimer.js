@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/MeditationTimer.css'; // Assume this contains necessary styles
+import '../styles/MeditationTimer.css';
 
+/**
+ * A meditation timer component that guides users through inhale, hold, and exhale phases.
+ * Allows users to set a custom duration, start, pause, and reset the timer.
+ */
 const MeditationTimer = () => {
   const [timeLeft, setTimeLeft] = useState(60); // Initial timer duration in seconds
   const [isActive, setIsActive] = useState(false);
   const [breathingPhase, setBreathingPhase] = useState('inhale');
   const [customDuration, setCustomDuration] = useState(60);
 
+  /**
+   * Handles the countdown timer logic.
+   * Decrements the timer every second when active.
+   */
   useEffect(() => {
     let interval = null;
     if (isActive) {
@@ -26,6 +34,10 @@ const MeditationTimer = () => {
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
 
+  /**
+   * Handles the breathing phase transitions (inhale, hold, exhale).
+   * Changes the phase every 5 seconds when the timer is active.
+   */
   useEffect(() => {
     let phaseInterval = null;
     if (isActive) {
@@ -47,25 +59,43 @@ const MeditationTimer = () => {
     return () => clearInterval(phaseInterval);
   }, [isActive]);
 
+  /**
+   * Updates the custom duration for the timer.
+   * @param {Event} e - The input change event.
+   */
   const handleCustomDurationChange = (e) => {
     setCustomDuration(Number(e.target.value));
   };
 
+  /**
+   * Starts the timer with the custom duration.
+   */
   const startTimer = () => {
     setTimeLeft(customDuration);
     setIsActive(true);
   };
 
+  /**
+   * Pauses the timer.
+   */
   const pauseTimer = () => {
     setIsActive(false);
   };
 
+  /**
+   * Resets the timer to its initial state.
+   */
   const resetTimer = () => {
     setIsActive(false);
     setTimeLeft(60);
     setBreathingPhase('inhale');
   };
 
+  /**
+   * Returns the color associated with the current breathing phase.
+   * @param {string} phase - The current breathing phase.
+   * @returns {string} - The color for the phase.
+   */
   const getPhaseColor = (phase) => {
     switch (phase) {
       case 'inhale':

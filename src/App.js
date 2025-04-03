@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import MeditationTimer from "./components/MeditationTimer";
-import "./styles/App.css"; // Add a new CSS file for global styles
+import "./styles/App.css";
 
+/**
+ * The main application component for Meditation Viz.
+ * Includes a dark mode toggle, an image carousel, and the meditation timer.
+ */
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
+  /**
+   * Toggles the dark mode state between light and dark themes.
+   */
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
@@ -17,7 +24,7 @@ function App() {
         {darkMode ? "Light Mode" : "Dark Mode"}
       </button>
       <h1>Meditation Timer</h1>
-      {/* Add the image carousel */}
+      {/* Image carousel displaying soothing images */}
       <Carousel autoPlay infiniteLoop showThumbs={false}>
         <div>
           <img src="/images/soothing1.jpg" alt="Soothing Scene 1" />

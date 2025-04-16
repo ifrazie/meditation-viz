@@ -4,6 +4,7 @@ import '../styles/MeditationTimer.css';
 /**
  * A meditation timer component that guides users through inhale, hold, and exhale phases.
  * Allows users to set a custom duration, start, pause, and reset the timer.
+ * Includes visual breathing animations for better guidance.
  */
 const MeditationTimer = () => {
   const [timeLeft, setTimeLeft] = useState(60); // Initial timer duration in seconds
@@ -87,56 +88,73 @@ const MeditationTimer = () => {
    */
   const resetTimer = () => {
     setIsActive(false);
-    setTimeLeft(60);
+    setTimeLeft(customDuration);
     setBreathingPhase('inhale');
   };
 
   /**
-   * Returns the color associated with the current breathing phase.
-   * @param {string} phase - The current breathing phase.
-   * @returns {string} - The color for the phase.
+   * Formats the timer display in MM:SS format
+   * @returns {string} - Formatted time
    */
-  const getPhaseColor = (phase) => {
-    switch (phase) {
-      case 'inhale':
-        return 'green';
-      case 'hold':
-        return 'yellow';
-      case 'exhale':
-        return 'red';
-      default:
-        return 'green';
-    }
+  const formatTime = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   return (
-    <div className="meditation-timer" role="main" aria-label="Meditation Timer">
+    <div className={`meditation-timer ${breathingPhase}`} role="main" aria-label="Meditation Timer">
       <div className="timer-display" aria-live="polite">
-        {timeLeft}s
+        {formatTime()}
       </div>
-      <div
-        className="breathing-guide"
-        style={{ backgroundColor: getPhaseColor(breathingPhase) }}
-        aria-live="polite"
-      >
+      
+      <div className="breathing-animation" aria-live="polite">
         {breathingPhase.charAt(0).toUpperCase() + breathingPhase.slice(1)}
       </div>
-      <div className="controls">
+      
+      <div className="breathing-guide" aria-live="polite">
+        {breathingPhase === 'inhale' && "Breathe in deeply through your nose..."}
+        {breathingPhase === 'hold' && "Hold your breath gently..."}
+        {breathingPhase === 'exhale' && "Release slowly through your mouth..."}
+      </div>
+      
+      <div className="duration-container">
+        <label htmlFor="duration-input" className="duration-label">Session Duration (seconds):</label>
         <input
+          id="duration-input"
           type="number"
           value={customDuration}
           onChange={handleCustomDurationChange}
-          min="1"
+          min="10"
+          max="3600"
           className="custom-duration-input"
           aria-label="Set custom timer duration"
+          disabled={isActive}
         />
-        <button onClick={startTimer} disabled={isActive} aria-label="Start Timer">
+      </div>
+      
+      <div className="controls">
+        <button 
+          onClick={startTimer} 
+          disabled={isActive} 
+          className="timer-btn"
+          aria-label="Start Timer"
+        >
           Start
         </button>
-        <button onClick={pauseTimer} disabled={!isActive} aria-label="Pause Timer">
+        <button 
+          onClick={pauseTimer} 
+          disabled={!isActive} 
+          className="timer-btn"
+          aria-label="Pause Timer"
+        >
           Pause
         </button>
-        <button onClick={resetTimer} aria-label="Reset Timer">
+        <button 
+          onClick={resetTimer} 
+          className="timer-btn reset"
+          aria-label="Reset Timer"
+        >
           Reset
         </button>
       </div>

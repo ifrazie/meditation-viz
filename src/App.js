@@ -20,30 +20,53 @@ function App() {
 
   return (
     <div className={`App ${darkMode ? "dark-mode" : ""}`}>
-      <button className="dark-mode-toggle" onClick={toggleDarkMode}>
-        {darkMode ? "Light Mode" : "Dark Mode"}
-      </button>
-      <h1>Meditation Timer</h1>
-      {/* Image carousel displaying soothing images */}
-      <Carousel autoPlay infiniteLoop showThumbs={false}>
-        <div>
-          <img src="/images/soothing1.jpg" alt="Soothing Scene 1" />
-        </div>
-        <div>
-          <img src="/images/soothing2.jpg" alt="Soothing Scene 2" />
-        </div>
-        <div>
-          <img src="/images/soothing3.jpg" alt="Soothing Scene 3" />
-        </div>
-        <div>
-          <img src="/images/soothing4.jpg" alt="Soothing Scene 4" />
-        </div>
-      </Carousel>
-      <MeditationTimer />
-      <p>Focus on your breathing and relax.</p>
-      <footer>
-        <p>© 2023 Nekura Systems. All rights reserved.</p>
-      </footer>
+      <div className="app-container">
+        <header className="app-header">
+          <button className="dark-mode-toggle" onClick={toggleDarkMode} aria-label="Toggle dark mode">
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+          <h1 className="app-title">Mindful Moments</h1>
+          <p className="app-description">
+            Take a moment to breathe, focus, and find your center. Use our guided 
+            meditation timer to practice mindfulness throughout your day.
+          </p>
+        </header>
+
+        {/* Image carousel displaying soothing images */}
+        <Carousel 
+          autoPlay 
+          infiniteLoop 
+          showThumbs={false}
+          showStatus={false}
+          interval={6000}
+          transitionTime={1000}
+          stopOnHover={true}
+        >
+          <div>
+            <img src="/images/soothing1.jpg" alt="Peaceful mountain landscape" />
+          </div>
+          <div>
+            <img src="/images/soothing2.jpg" alt="Calming ocean waves" />
+          </div>
+          <div>
+            <img src="/images/soothing3.jpg" alt="Serene forest path" />
+          </div>
+          <div>
+            <img src="/images/soothing4.jpg" alt="Tranquil lake reflection" />
+          </div>
+        </Carousel>
+
+        {/* Meditation Timer Component */}
+        <MeditationTimer />
+        
+        <p className="meditation-tip">
+          Focus on your breathing and let thoughts come and go without judgment.
+        </p>
+        
+        <footer className="app-footer">
+          <p>© {new Date().getFullYear()} Nekura Systems. All rights reserved.</p>
+        </footer>
+      </div>
     </div>
   );
 }
